@@ -1,3 +1,5 @@
+package iniciales;
+
 import java.io.File;
 
 public class Ejercicio4 {
