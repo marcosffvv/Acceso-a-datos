@@ -8,28 +8,31 @@ import java.util.Scanner;
 public class Ejercicio9 {
 
     static Scanner sc = new Scanner(System.in);
+    // Scanner global para leer entradas del usuario
 
     public static void main(String[] args) {
         int opcion;
         do {
-            mostrarMenu();
+            mostrarMenu(); // Muestra el menú de opciones
             System.out.print("Selecciona una opción: ");
             opcion = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); // Limpia el buffer del scanner
 
+            // Estructura switch con sintaxis moderna (Java 14+)
             switch (opcion) {
-                case 1 -> verificarArchivo();
-                case 2 -> explorarDirectorio();
-                case 3 -> crearCarpeta();
-                case 4 -> crearArchivo();
-                case 5 -> trabajarConURI();
+                case 1 -> verificarArchivo();     // Comprueba si un archivo existe o lo crea
+                case 2 -> explorarDirectorio();   // Muestra el contenido de un directorio
+                case 3 -> crearCarpeta();         // Crea una nueva carpeta
+                case 4 -> crearArchivo();         // Crea un nuevo archivo
+                case 5 -> trabajarConURI();       // Convierte una ruta a formato URI
                 case 6 -> System.out.println("Saliendo del asistente...");
                 default -> System.out.println("Opción no válida.");
             }
-        } while (opcion != 6);
+        } while (opcion != 6); // Repite hasta que el usuario elija salir
     }
 
     public static void mostrarMenu() {
+        // Muestra las opciones disponibles del asistente de archivos
         System.out.println("\n===== ASISTENTE DE ARCHIVOS =====");
         System.out.println("1. Verificar archivo");
         System.out.println("2. Explorar carpeta");
@@ -47,11 +50,12 @@ public class Ejercicio9 {
         if (archivo.exists()) {
             System.out.println("El archivo existe.");
         } else {
+            // Si el archivo no existe, se da la opción de crearlo
             System.out.print("No existe. ¿Deseas crearlo? (s/n): ");
             if (sc.nextLine().equalsIgnoreCase("s")) {
                 try {
-                    archivo.getParentFile().mkdirs();
-                    archivo.createNewFile();
+                    archivo.getParentFile().mkdirs(); // Crea carpetas intermedias si es necesario
+                    archivo.createNewFile();          // Crea el archivo
                     System.out.println("Archivo creado.");
                 } catch (IOException e) {
                     System.out.println("Error al crear archivo: " + e.getMessage());
@@ -66,8 +70,10 @@ public class Ejercicio9 {
         File dir = new File(ruta);
 
         if (dir.exists() && dir.isDirectory()) {
+            // Recorre el contenido del directorio
             for (String nombre : dir.list()) {
                 File elemento = new File(dir, nombre);
+                // Identifica si es archivo o carpeta
                 if (elemento.isFile()) System.out.println(nombre + " [ARCHIVO]");
                 else if (elemento.isDirectory()) System.out.println(nombre + " [DIRECTORIO]");
             }
@@ -81,6 +87,7 @@ public class Ejercicio9 {
         String ruta = sc.nextLine();
         File carpeta = new File(ruta);
 
+        // mkdirs() crea toda la ruta de carpetas si no existen
         if (carpeta.mkdirs()) {
             System.out.println("Carpeta creada correctamente.");
         } else {
@@ -93,7 +100,7 @@ public class Ejercicio9 {
         String ruta = sc.nextLine();
         File archivo = new File(ruta);
         try {
-            archivo.getParentFile().mkdirs();
+            archivo.getParentFile().mkdirs(); // Crea las carpetas contenedoras si no existen
             if (archivo.createNewFile()) {
                 System.out.println("Archivo creado con éxito.");
             } else {
@@ -108,7 +115,7 @@ public class Ejercicio9 {
         System.out.print("Ruta para convertir a URI: ");
         String ruta = sc.nextLine();
         File archivo = new File(ruta);
-        URI uri = archivo.toURI();
+        URI uri = archivo.toURI(); // Convierte la ruta a un objeto URI
         System.out.println("URI generado: " + uri);
     }
 }
